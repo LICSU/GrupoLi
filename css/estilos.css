@@ -1,0 +1,48 @@
+﻿body {
+}
+a {
+    color: #8e248c !important;
+}
+body {
+    font-family: 'Roboto Slab', serif;
+}
+.icon-lg {
+    font-size:60px !important;
+}
+.espacio {
+    height:20px;
+}
+.pagination {
+    margin:0px !important;
+}
+#calendario td {
+	text-align: center;
+}
+.btn, .btn-large {
+    text-decoration: none;
+    color: #fff;
+    background-color: #8e248c;
+    text-align: center;
+    letter-spacing: .5px;
+    transition: .2s ease-out;
+    cursor: pointer;
+}
+label {
+    font-size: 14px;
+    color: #8e248c;
+}
+.btn 
+{
+    background: #8e248c !important;
+    color: #fff !important;
+}
+
+h1, h2, h3, h4, h5, h6, .h1, .h2, .h3, .h4, .h5, .h6 {
+    color: #8e248c !important;
+}
+
+
+.perfilpeq {
+   width: 30px;
+   cursor:pointer;
+}
