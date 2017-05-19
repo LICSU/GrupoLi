@@ -218,10 +218,21 @@
                     <div class="row form-group">
                         <!-- Elementos Evaluados -->
                         <div class="col-lg-6">
-                            <h6 class="text-center">Elementos Evaluados</h6>
+                            <div class="row form-group">
+                                <h6 class="text-center">Elementos Evaluados</h6>
+                            </div>
+                            <div class="row form-group">
+                                <div class="col-md-2">
+                                    <label>Filtrar</label>
+                                </div>
+                                <div class="col-md-10">
+                                    <asp:DropDownList ID="ddElementosEvaluados" runat="server" CssClass="form-control" 
+                                                      AutoPostBack="true" OnSelectedIndexChanged="ddElementosEvaluados_SelectedIndexChanged"></asp:DropDownList>
+                                </div>                        
+                            </div>
                             <asp:GridView ID="GridView3" runat="server" Width="90%" HorizontalAlign="Center"
                                 OnRowCommand="GridView3_RowCommand" AutoGenerateColumns="false" AllowPaging="true"
-                                DataKeyNames="AluNivClaseID" CssClass="table table-striped table-bordered table-hover dataTable no-footer dtr-inline" PageSize="10"
+                                DataKeyNames="AluNivClaseID" CssClass="table table-striped table-bordered table-hover dataTable no-footer dtr-inline" PageSize="5"
                                 onpageindexchanging="GridView3_PageIndexChanging" EmptyDataText="No existen Elementos evaluados"
                                 PagerStyle-CssClass="pagination" 
                                 PagerSettings-PreviousPageText="Anterior" PagerSettings-NextPageText="Proxima" PagerSettings-Mode="Numeric"
@@ -259,10 +270,21 @@
                         </div>
                         <!-- Elementos A Evaluar -->
                         <div class="col-lg-6">
-                            <h6 class="text-center">Elementos para Evaluar</h6>
+                            <div class="row form-group">
+                                <h6 class="text-center">Elementos para Evaluar</h6>
+                            </div>
+                            <div class="row form-group">
+                                <div class="col-md-2">
+                                    <label>Filtrar</label>
+                                </div>
+                                <div class="col-md-10">
+                                    <asp:DropDownList ID="ddlElementosaEvaluar" runat="server" CssClass="form-control" 
+                                                      AutoPostBack="true" OnSelectedIndexChanged="ddlElementosaEvaluar_SelectedIndexChanged"></asp:DropDownList>
+                                </div>                        
+                            </div>
                             <asp:GridView ID="GridView4"  runat="server" Width="90%" HorizontalAlign="Center"
                                 OnRowCommand="GridView4_RowCommand" AutoGenerateColumns="false" AllowPaging="true"
-                                DataKeyNames="AluNivClaseID" PageSize="10"
+                                DataKeyNames="AluNivClaseID" PageSize="5"
                                 onpageindexchanging="GridView4_PageIndexChanging" EmptyDataText="No existen Elementos"
                                 CssClass="table table-striped table-bordered table-hover dataTable no-footer dtr-inline"
                                 PagerStyle-CssClass="pagination" 
@@ -305,20 +327,32 @@
     </div>
 </div>
 
-<!-- Modal Evaluacion Usuario -->
+<!-- Modal Historial Calificaciones Usuario -->
 <div class="modal fade" id="modalHistorial" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
     <div class="modal-dialog" style="width:900px;">
     <div class="modal-content" >
         <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Cerrar</span></button>
         <h4 class="modal-title"><label id="Label6">Historial de Calificaciones</label></h4>
-        </div>
+        </div>        
         <div class="modal-body text-center">
             <asp:UpdatePanel ID="UpdatePanel6" runat="server">
                 <ContentTemplate>
                     <div class="row form-group">
-                        <!-- Elementos Evaluados -->
                         <h6 class="text-center">Historial de Calificaciones</h6>
+                    </div>
+                    <div class="row form-group">
+                        <div class="col-md-5"></div>
+                        <div class="col-md-4">
+                            <label>** Seleccione un Elemento para filtrar **</label>
+                        </div>
+                        <div class="col-md-3">
+                            <asp:DropDownList ID="ddlElementos" runat="server" CssClass="form-control" 
+                                          AutoPostBack="true" OnSelectedIndexChanged="ddlElementos_SelectedIndexChanged"></asp:DropDownList>
+                        </div>
+                        
+                    </div>
+                    <div class="row form-group">                      
                         <asp:GridView ID="GridView5" runat="server" HorizontalAlign="Center"
                             AutoGenerateColumns="false" AllowPaging="true"
                             DataKeyNames="AluNivClaseID" CssClass="table table-striped table-bordered table-hover dataTable no-footer dtr-inline" PageSize="5"

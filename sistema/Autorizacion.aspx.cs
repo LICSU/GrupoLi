@@ -36,7 +36,6 @@ public partial class sistema_Autorizacion : System.Web.UI.Page
                         " planAutorizacion.AutorizacionActivo as AutorizacionActivo" +
                         " FROM  planAutorizacion INNER JOIN " +
                         " dbo.Usuario ON planAutorizacion.UsuarioID = dbo.Usuario.UsuarioID " + ViewState["sWhere"];
-            MostrarMsjModal(cmd2, "");
             SqlDataAdapter dAdapter = new SqlDataAdapter(cmd2, cn);
             DataSet ds = new DataSet();
             dAdapter.Fill(ds);

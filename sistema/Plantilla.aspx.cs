@@ -398,8 +398,9 @@ public partial class sistema_Plantilla : System.Web.UI.Page
     protected void btnDelete_Click(object sender, EventArgs e)
     {
         string ClasePlantillaID = hClaseDel.Value;
+        sSelect = "DELETE From ClaseEspacio WHERE ClasePlantillaID = " + ClasePlantillaID;
+        Utilidades.EjeSQL(sSelect, cn, ref Err, false);
         int iRes = 0;
-        Utilidades.EjeSQL("ALTER TABLE ClaseEspacio NOCHECK CONSTRAINT FK__ClaseEspa__Clase__123EB7A3", cn, ref Err, false);
         cn.Open();
         string SQL_1 = "DELETE FROM ClasePlantilla Where ClasePlantillaID = " + ClasePlantillaID;
         try
@@ -414,7 +415,6 @@ public partial class sistema_Plantilla : System.Web.UI.Page
         cn.Close();
         if (iRes > 0)
         {
-            Utilidades.EjeSQL("ALTER TABLE ClaseEspacio NOCHECK CONSTRAINT FK__ClaseEspa__Clase__123EB7A3", cn, ref Err, false);
             BindGridView();
             MostrarMsjModal("Registro eliminado de la base de datos", "EXI");
             System.Text.StringBuilder sb = new System.Text.StringBuilder();

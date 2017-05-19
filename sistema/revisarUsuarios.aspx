@@ -97,6 +97,12 @@
                                     <asp:Label ID="EstadoProximo" runat="server" Enabled="false" Visible="false" Text='<%# Eval("EstadoProximo") %>' />
                                 </ItemTemplate>
                             </asp:TemplateField>
+                            <asp:TemplateField HeaderText="Plan">
+                                <ItemTemplate>
+                                    <asp:Label ID="PlanNombre" runat="server" Enabled="false" Text='<%# Eval("PlanNombre") %>' />
+                                </ItemTemplate>
+                            </asp:TemplateField>
+
                             <asp:ButtonField CommandName="Historial"
                                 ButtonType="Image" ImageUrl="~/Images/historial.png" HeaderText="Historial">
                                 <ControlStyle></ControlStyle>

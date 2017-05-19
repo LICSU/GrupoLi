@@ -63,7 +63,9 @@ public partial class sistema_revisarUsuarios : System.Web.UI.Page
                            " dbo.UsuarioRol.ClienteID, dbo.PlanEmpresa.PlanActivo, dbo.PlanEmpresa.EstadoProximo," +
                            " (SELECT ClienteNombre FROM Cliente WHERE ClienteID =  dbo.UsuarioRol.ClienteID) as Empresa," +
                            " (select COUNT(*) from Reserva WHERE MONTH(FechaReserva) = MONTH(SYSDATETIME()) AND YEAR(FechaReserva) = YEAR(SYSDATETIME()) AND UsuarioId = dbo.Usuario.UsuarioID) as NroReservas," +
-                           " (select COUNT(*) from Reserva WHERE MONTH(FechaReserva) = MONTH(SYSDATETIME()) - 1 AND YEAR(FechaReserva) = YEAR(SYSDATETIME()) AND UsuarioId = dbo.Usuario.UsuarioID) as NroReservasAnt" +
+                           " (select COUNT(*) from Reserva WHERE MONTH(FechaReserva) = MONTH(SYSDATETIME()) - 1 AND YEAR(FechaReserva) = YEAR(SYSDATETIME()) AND UsuarioId = dbo.Usuario.UsuarioID) as NroReservasAnt," +
+                           " (select top 1 p.plannombre from planalumno pa join [plan] p on pa.planID = p.PlanId and pa.UsuarioID = dbo.Usuario.UsuarioID order by pa.PlanAlumnoID desc) as PlanNombre," +
+                           " (select top 1 TotalClases from planempresa where usuarioid = dbo.Usuario.UsuarioID order by planempresaid desc) as NroClases" +
                            " FROM  dbo.PlanEmpresa INNER JOIN "+
                            " dbo.Usuario ON dbo.PlanEmpresa.UsuarioID = dbo.Usuario.UsuarioID INNER JOIN "+
                            " dbo.UsuarioRol ON dbo.Usuario.UsuarioID = dbo.UsuarioRol.UsuarioID "+
@@ -283,7 +285,9 @@ public partial class sistema_revisarUsuarios : System.Web.UI.Page
                            " (select COUNT(*) from Reserva WHERE MONTH(FechaReserva) = MONTH(SYSDATETIME()) AND YEAR(FechaReserva) = YEAR(SYSDATETIME()) AND UsuarioId = dbo.Usuario.UsuarioID) as NroReservas," +
                            " (select COUNT(*) from Reserva WHERE MONTH(FechaReserva) = MONTH(SYSDATETIME()) - 1 AND YEAR(FechaReserva) = YEAR(SYSDATETIME()) AND UsuarioId = dbo.Usuario.UsuarioID) as NroReservasAnt," +
                            " CAST(CASE WHEN dbo.PlanEmpresa.PlanActivo = 1 THEN 'ACTIVO' ELSE 'INACTIVO' END as VARCHAR(10)) as EstadoAct, " +
-                            " CAST(CASE WHEN dbo.PlanEmpresa.EstadoProximo = 1 THEN 'ACTIVO' ELSE 'INACTIVO' END as VARCHAR(10)) as EstadoSig " +                    
+                            " CAST(CASE WHEN dbo.PlanEmpresa.EstadoProximo = 1 THEN 'ACTIVO' ELSE 'INACTIVO' END as VARCHAR(10)) as EstadoSig, " +
+                            " (select top 1 p.plannombre from planalumno pa join [plan] p on pa.planID = p.PlanId and pa.UsuarioID = dbo.Usuario.UsuarioID order by pa.PlanAlumnoID desc) as PlanNombre," +
+                            " (select top 1 TotalClases from planempresa where usuarioid = dbo.Usuario.UsuarioID order by planempresaid desc) as NroClases" +
                            " FROM  dbo.PlanEmpresa INNER JOIN " +
                            " dbo.Usuario ON dbo.PlanEmpresa.UsuarioID = dbo.Usuario.UsuarioID INNER JOIN " +
                            " dbo.UsuarioRol ON dbo.Usuario.UsuarioID = dbo.UsuarioRol.UsuarioID " +

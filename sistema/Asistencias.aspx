@@ -110,7 +110,8 @@
                             </asp:TemplateField>
                             <asp:TemplateField HeaderText="Asistió">
                                 <ItemTemplate>
-                                    <asp:CheckBox ID="ClaseAsist" runat="server" Enabled="false" Checked='<%# Eval("ClaseAsist") %>' />
+                                    <asp:CheckBox ID="ClaseAsist" runat="server" Enabled="false" Checked='<%# Eval("ClaseAsist") %>' Text="&nbsp;" />
+                                    <label for="ClaseAsist"></label>
                                 </ItemTemplate>
                             </asp:TemplateField>                                  
                         </Columns>
@@ -168,55 +169,56 @@
                             <div class="modal-body">
                                 <div class="row">
                                     <asp:HiddenField ID="hAsistenciaMod" runat="server" /> 
-                                        <div class="form-group">
+                                    <div class="row form-group">
                                         <label class="col-xs-4 control-label">Nombre: </label>
                                         <div class="col-xs-6">
                                             <asp:TextBox ID="txtNombreEdit" runat="server"  Enabled="false" ClientIDMode="Static" CssClass="form-control"></asp:TextBox>                                                                
                                         </div>
                                         <div class="col-xs-4"></div>
                                     </div>
-                                    <div class="form-group">
+                                    <div class="row form-group">
                                         <label class="col-xs-4 control-label">Apellido: </label>
                                         <div class="col-xs-6">
                                             <asp:TextBox ID="txtApellidoEdit" runat="server" Enabled="false" ClientIDMode="Static" CssClass="form-control"></asp:TextBox>                                                                
                                         </div>
                                         <div class="col-xs-4"></div>
                                     </div> 
-                                    <div class="form-group">
+                                    <div class="row form-group">
                                         <label class="col-xs-4 control-label">Cédula: </label>
                                         <div class="col-xs-6">
                                             <asp:TextBox ID="txtCedulaEdit" runat="server" Enabled="false" ClientIDMode="Static" CssClass="form-control"></asp:TextBox>                                                                
                                         </div>
                                         <div class="col-xs-4"></div>
                                     </div>     
-                                    <div class="form-group">
+                                    <div class="row form-group">
                                         <label class="col-xs-4 control-label">Clase: </label>
                                         <div class="col-xs-6">
                                             <asp:TextBox ID="txtClaseEdit" runat="server" Enabled="false" ClientIDMode="Static" CssClass="form-control"></asp:TextBox>                                                                
                                         </div>
                                         <div class="col-xs-4"></div>
                                     </div>    
-                                    <div class="form-group">
+                                    <div class="row form-group">
                                         <label class="col-xs-4 control-label">Fecha: </label>
                                         <div class="col-xs-6">
                                             <asp:TextBox runat="server" ID="txtFechaEdit" Enabled="false" ClientIDMode="Static" CssClass="form-control"></asp:TextBox> 
                                         </div>
                                         <div class="col-xs-4"></div>
                                     </div>     
-                                    <div class="form-group">
+                                    <div class="row form-group">
                                         <label class="col-xs-4 control-label">Hora: </label>
                                         <div class="col-xs-6">
                                             <asp:TextBox ID="txtHoraEdit" runat="server" ClientIDMode="Static" Enabled ="false" CssClass="form-control"></asp:TextBox>                                                                
                                         </div>
                                         <div class="col-xs-4"></div>
                                     </div>
-                                    <div class="form-group">
+                                    <div class="">
                                         <label class="col-xs-4 control-label">Asistió: </label>
                                         <div class="col-xs-6">
-                                            <asp:CheckBox ID="chkAsistioEdit" runat="server" ClientIDMode="Static"  CssClass="checkbox"></asp:CheckBox>                                                                
+                                            <asp:CheckBox ID="chkAsistioEdit" runat="server"></asp:CheckBox> 
+                                            <label for="chkAsistioEdit">&nbsp;</label>                                                               
                                         </div>
                                         <div class="col-xs-4"></div>
-                                    </div>                                                
+                                    </div>                                       
                                 </div>
                             </div>
                             <div class="modal-footer">

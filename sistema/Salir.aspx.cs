@@ -18,6 +18,6 @@ public partial class sistema_Salir : System.Web.UI.Page
             Response.Cookies[sHttpCookie].Expires = DateTime.Now.AddDays(-1);
         }
         Response.Cookies.Add(new HttpCookie("ASP.NET_SessionId", ""));
-        Response.Redirect("~/index.aspx");
+        Response.Redirect("~/ingresar.aspx");
     }
 }

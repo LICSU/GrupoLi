@@ -183,7 +183,7 @@ public partial class sistema_AlumnosEmpresa : System.Web.UI.Page
                 vectorUsuariosID = new string[tamVectorn];
                 //2. Insertamos los planes.....
                 cn.Open();
-                sSelectSQL = "SELECT Usuario.UsuarioID as UsuarioId, " +
+                sSelectSQL = "SELECT DISTINCT(Usuario.UsuarioID) as UsuarioId, " +
                             " Usuario.UsuarioNombre as UsuarioNombre, " +
                             " Usuario.UsuarioApellido as UsuarioApellido, " +
                             " Usuario.UsuarioCedula as UsuarioCedula, " +
@@ -197,6 +197,7 @@ public partial class sistema_AlumnosEmpresa : System.Web.UI.Page
                             " WHERE (PlanEmpresa.EstadoProximo = 1) " + ViewState["sWhere"];
                 SqlCommand cmd = new SqlCommand(sSelectSQL, cn);
                 SqlDataReader dr = cmd.ExecuteReader();
+                
                 string SucursalID = "1";
                 //MostrarMsjModal(sSelectSQL, "");
                 int iRes3 = 0;
@@ -223,8 +224,9 @@ public partial class sistema_AlumnosEmpresa : System.Web.UI.Page
                     //if (resp > 0 && res2 > 0)
                     //{
                     DateTime MesProximo = new DateTime(DateTime.Today.Year, DateTime.Today.Month + 2, 1);
+                    DateTime MesActual = DateTime.Today.Date;
                     sSelectSQL = "UPDATE PlanEmpresa SET EstadoProximo = 1," +
-                                " MesProximo = CONVERT(DATE, '" + MesProximo.ToString("d") + "', 103) WHERE UsuarioID = " + vectorUsuariosID[i];
+                                " MesProximo = CONVERT(DATE, '" + MesProximo.ToString("d") + "', 103), fechaUltimo = CONVERT(DATE, '" + MesActual.ToString("d") + "', 103) WHERE UsuarioID = " + vectorUsuariosID[i];
                     Utilidades.EjeSQL(sSelectSQL, cn, ref Err, false);
                     iRes = insertarAlumno(PlanAlumnoID, vectorUsuariosID[i], SucursalID, PlanID, FechaInicio, FechaFin, ClienteID, saldoN, cant, CantidadClases);
                     PlanAlumnoID++;

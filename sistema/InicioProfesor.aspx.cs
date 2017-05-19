@@ -46,11 +46,14 @@ public partial class sistema_InicioProfesor : System.Web.UI.Page
                           " (SELECT COUNT(*) FROM ClasePlantilla INNER JOIN Reserva ON ClasePlantilla.ClasePlantillaID = Reserva.ClasePlantillaID "+
                           " WHERE Reserva.UsuarioID = Usuario.UsuarioID) AS CantReservas, "+
                           "(SELECT Nivel.NivelID FROM Nivel INNER JOIN Alumno_Nivel_Clase ON nivel.NivelID = Alumno_Nivel_Clase.NivelID " +
-                          " WHERE Alumno_Nivel_Clase.ClaseID = ClasePlantilla.ClaseID AND Alumno_Nivel_Clase.UsuarioID = Usuario.UsuarioID) as NivelID," +
+                          " WHERE Alumno_Nivel_Clase.ClaseID = ClasePlantilla.ClaseID AND Alumno_Nivel_Clase.UsuarioID = Usuario.UsuarioID "+
+                          " AND Alumno_Nivel_Clase.ProfesorID = "+_autenticado.UsuarioID+") as NivelID," +
                           " CAST (CASE WHEN (SELECT Nivel.NivelNombre FROM Nivel INNER JOIN Alumno_Nivel_Clase ON nivel.NivelID = Alumno_Nivel_Clase.NivelID "+
-                          " WHERE Alumno_Nivel_Clase.ClaseID = ClasePlantilla.ClaseID AND Alumno_Nivel_Clase.UsuarioID = Usuario.UsuarioID) is null THEN 'No Asignado' ELSE "+
+                          " WHERE Alumno_Nivel_Clase.ClaseID = ClasePlantilla.ClaseID AND Alumno_Nivel_Clase.UsuarioID = Usuario.UsuarioID "+
+                          " AND Alumno_Nivel_Clase.ProfesorID = "+ _autenticado.UsuarioID +") is null THEN 'No Asignado' ELSE " +
                           " (SELECT Nivel.NivelNombre FROM Nivel INNER JOIN Alumno_Nivel_Clase ON nivel.NivelID = Alumno_Nivel_Clase.NivelID "+
-                          " WHERE Alumno_Nivel_Clase.ClaseID = ClasePlantilla.ClaseID AND Alumno_Nivel_Clase.UsuarioID = Usuario.UsuarioID) END AS VARCHAR) as Nivel, "+
+                          " WHERE Alumno_Nivel_Clase.ClaseID = ClasePlantilla.ClaseID AND Alumno_Nivel_Clase.UsuarioID = Usuario.UsuarioID "+
+                          " AND Alumno_Nivel_Clase.ProfesorID = "+_autenticado.UsuarioID +") END AS VARCHAR) as Nivel, " +
                           " CAST(CASE WHEN (SELECT ClaseAsistActivo FROM ClaseAsistencia WHERE ClaseAsistenciaPlantillaID = ClasePlantilla.ClasePlantillaID AND ClaseAsistenciaUsuarioID = Usuario.UsuarioID) "+
                           " is null THEN 0 ELSE (SELECT ClaseAsistActivo FROM ClaseAsistencia WHERE ClaseAsistenciaPlantillaID = ClasePlantilla.ClasePlantillaID "+
                           " AND ClaseAsistenciaUsuarioID = Usuario.UsuarioID) "+
@@ -58,7 +61,7 @@ public partial class sistema_InicioProfesor : System.Web.UI.Page
                           " ON Reserva.ClasePlantillaID = ClasePlantilla.ClasePlantillaID WHERE	ClasePlantilla.ProfesorID = " + _autenticado.UsuarioID + " AND " +
                           " CONVERT(DATE, ClasePlantilla.ClasePlantillaFecha, 103) = CONVERT(DATE, SYSDATETIME(), 103) " +
                           " ORDER BY ClasePlantilla.ClasePlantillaFecha, ClasePlantilla.ClasePlantillaHora, Usuario.UsuarioNombre ASC";
-
+            //MostrarMsjModal(cmd2, "");
             SqlDataAdapter dAdapter = new SqlDataAdapter(cmd2, cn);
             DataSet ds = new DataSet();
             dAdapter.Fill(ds);
@@ -78,6 +81,77 @@ public partial class sistema_InicioProfesor : System.Web.UI.Page
     }
     #endregion
 
+    #region filtros
+    protected void ddlElementos_SelectedIndexChanged(object sender, EventArgs e)
+    {
+        if (ddlElementos.SelectedValue != "")
+        {
+            ViewState["ElementoID"] = " AND  Elemento.ElementoID = " + ddlElementos.SelectedValue;
+        }
+        else 
+        {
+            ViewState["ElementoID"] = "";
+        }
+        cargarHistorial();
+    }
+    protected void ddElementosEvaluados_SelectedIndexChanged(object sender, EventArgs e)
+    {
+        if (ddElementosEvaluados.SelectedValue != "")
+        {
+            ViewState["ElementoEvaluadoID"] = " AND  Clase_Nivel_Elemento.ElementoID = " + ddElementosEvaluados.SelectedValue;
+        }
+        else
+        {
+            ViewState["ElementoEvaluadoID"] = "";
+        }
+        cargarElementosEvaluados();
+    }
+    protected void ddlElementosaEvaluar_SelectedIndexChanged(object sender, EventArgs e)
+    {
+        if (ddlElementosaEvaluar.SelectedValue != "")
+        {
+            ViewState["ElementoNoEvaluadoID"] = " AND  Elemento.ElementoID = " + ddlElementosaEvaluar.SelectedValue;
+        }
+        else
+        {
+            ViewState["ElementoNoEvaluadoID"] = "";
+        }
+        cargarElementosAEvaluar();
+    }
+    #endregion
+
+    #region CargarListas
+    protected void cargarListas()
+    { 
+        //Elementos Evaluados
+        string SQL = "SELECT DISTINCT(Clase_Nivel_Elemento.ElementoID) as VAL, " +
+                    " (SELECT ElementoNombre FROM Elemento WHERE ElementoID = Clase_Nivel_Elemento.ElementoID) as TXT "+
+                    " FROM Alumno_Nivel_Clase_Elemento INNER JOIN Alumno_Nivel_Clase ON Alumno_Nivel_Clase_Elemento.AluNivClaseID = Alumno_Nivel_Clase.AluNivClaseID "+
+                    " INNER JOIN Clase_Nivel_Elemento ON Alumno_Nivel_Clase_Elemento.ClaseElemNivID = Clase_Nivel_Elemento.ClaseElemNivID "+
+                    " AND Alumno_Nivel_Clase_Elemento.ClaseElemNivID = Clase_Nivel_Elemento.ClaseElemNivID " +
+                    " WHERE (Alumno_Nivel_Clase.ClaseID = " + ViewState["ClaseID"] + " AND Alumno_Nivel_Clase.UsuarioID = " + ViewState["AlumnoID"] +
+                    " AND Alumno_Nivel_Clase.NivelID = " + ViewState["NivelID"] + ") ORDER BY TXT";
+        Utilidades.CargarListado(ref ddElementosEvaluados, SQL, cn, ref Err, true);
+
+        //Elementos A Evaluar
+        SQL = " SELECT DISTINCT(dbo.Elemento.ElementoID) as VAL, dbo.Elemento.ElementoNombre as TXT "+
+              " FROM Alumno_Nivel_Clase INNER JOIN Clase "+
+              " ON Alumno_Nivel_Clase.ClaseID = Clase.ClaseID INNER JOIN Clase_Nivel_Elemento "+
+              " ON Clase.ClaseID = Clase_Nivel_Elemento.ClaseID INNER JOIN Nivel "+
+              " ON Alumno_Nivel_Clase.NivelID = Nivel.NivelID AND Clase_Nivel_Elemento.NivelID = Nivel.NivelID "+
+              " INNER JOIN Elemento ON Clase_Nivel_Elemento.ElementoID = Elemento.ElementoID "+
+              " WHERE (Alumno_Nivel_Clase.UsuarioID = " + ViewState["AlumnoID"] + " AND Clase.ClaseID = " + ViewState["ClaseID"] + 
+              " AND Alumno_Nivel_Clase.NivelID = " + ViewState["NivelID"] + ")  " +
+              " AND Clase_Nivel_Elemento.ElementoID "+
+              " NOT IN (SELECT Clase_Nivel_Elemento.ElementoID "+
+              " FROM Alumno_Nivel_Clase_Elemento INNER JOIN Alumno_Nivel_Clase ON Alumno_Nivel_Clase_Elemento.AluNivClaseID = Alumno_Nivel_Clase.AluNivClaseID "+
+              " INNER JOIN Clase_Nivel_Elemento ON Alumno_Nivel_Clase_Elemento.ClaseElemNivID = Clase_Nivel_Elemento.ClaseElemNivID "+
+              " AND Alumno_Nivel_Clase_Elemento.ClaseElemNivID = Clase_Nivel_Elemento.ClaseElemNivID " +
+              " WHERE (Alumno_Nivel_Clase.ClaseID = " + ViewState["ClaseID"] + " AND Alumno_Nivel_Clase.UsuarioID = " + ViewState["AlumnoID"] + ")) ORDER BY TXT";
+        Utilidades.CargarListado(ref ddlElementosaEvaluar, SQL, cn, ref Err, true);
+    }
+    #endregion
+
     #region Cargar Elementos a evaluar
     protected void cargarElementosAEvaluar()
     {
@@ -94,14 +168,14 @@ public partial class sistema_InicioProfesor : System.Web.UI.Page
                            " ON Clase.ClaseID = Clase_Nivel_Elemento.ClaseID INNER JOIN Nivel "+
                            " ON Alumno_Nivel_Clase.NivelID = Nivel.NivelID AND Clase_Nivel_Elemento.NivelID = Nivel.NivelID "+
                            " INNER JOIN Elemento ON Clase_Nivel_Elemento.ElementoID = Elemento.ElementoID " +
-                           " WHERE (Alumno_Nivel_Clase.UsuarioID = " + ViewState["AlumnoID"] + " AND Clase.ClaseID = " + ViewState["ClaseID"] + " AND Alumno_Nivel_Clase.NivelID = " + ViewState["NivelID"] + "" +
+                           " WHERE (Alumno_Nivel_Clase.UsuarioID = " + ViewState["AlumnoID"] + " AND Clase.ClaseID = " + ViewState["ClaseID"] + " AND Alumno_Nivel_Clase.NivelID = " + ViewState["NivelID"] + " " + ViewState["ElementoNoEvaluadoID"] +
                            " )  AND Clase_Nivel_Elemento.ElementoID" + 
                            " NOT IN (SELECT Clase_Nivel_Elemento.ElementoID "+
                            " FROM Alumno_Nivel_Clase_Elemento INNER JOIN Alumno_Nivel_Clase ON Alumno_Nivel_Clase_Elemento.AluNivClaseID = Alumno_Nivel_Clase.AluNivClaseID "+
                            " INNER JOIN Clase_Nivel_Elemento ON Alumno_Nivel_Clase_Elemento.ClaseElemNivID = Clase_Nivel_Elemento.ClaseElemNivID "+
                            " AND Alumno_Nivel_Clase_Elemento.ClaseElemNivID = Clase_Nivel_Elemento.ClaseElemNivID " +
                            " WHERE (Alumno_Nivel_Clase.ClaseID = " + ViewState["ClaseID"] + " AND Alumno_Nivel_Clase.UsuarioID = " + ViewState["AlumnoID"] + "))";
-            
+
             SqlDataAdapter dAdapter = new SqlDataAdapter(cmd2, cn);
             DataSet ds = new DataSet();
             dAdapter.Fill(ds);
@@ -137,7 +211,7 @@ public partial class sistema_InicioProfesor : System.Web.UI.Page
                            " INNER JOIN Clase_Nivel_Elemento ON Alumno_Nivel_Clase_Elemento.ClaseElemNivID = Clase_Nivel_Elemento.ClaseElemNivID "+
                            " AND Alumno_Nivel_Clase_Elemento.ClaseElemNivID = Clase_Nivel_Elemento.ClaseElemNivID " +
                            " WHERE (Alumno_Nivel_Clase.ClaseID = " + ViewState["ClaseID"] + " AND Alumno_Nivel_Clase.UsuarioID = " + ViewState["AlumnoID"] +
-                           " AND Alumno_Nivel_Clase.NivelID = " + ViewState["NivelID"] + ")";
+                           " AND Alumno_Nivel_Clase.NivelID = " + ViewState["NivelID"] + ViewState["ElementoEvaluadoID"] +")";
             
             SqlDataAdapter dAdapter = new SqlDataAdapter(cmd2, cn);
             DataSet ds = new DataSet();
@@ -196,6 +270,7 @@ public partial class sistema_InicioProfesor : System.Web.UI.Page
                 string nivel = (gvrow.FindControl("Nivel") as Label).Text;
                 if (nivel != "No Asignado")
                 {
+                    cargarListas();
                     cargarElementosAEvaluar();
                     cargarElementosEvaluados();
                     MostrarEvaluacionModal();
@@ -555,6 +630,15 @@ public partial class sistema_InicioProfesor : System.Web.UI.Page
     #region Histrial
     protected void btnHistorial_Click(object sender, EventArgs e)
     {
+        string SQL = " SELECT DISTINCT(dbo.Elemento.ElementoID) AS VAL, dbo.Elemento.ElementoNombre AS TXT " +
+                     " FROM dbo.Alumno_Nivel_Clase_Elemento INNER JOIN " +
+                     " dbo.Alumno_Nivel_Clase ON dbo.Alumno_Nivel_Clase_Elemento.AluNivClaseID = dbo.Alumno_Nivel_Clase.AluNivClaseID INNER JOIN " +
+                     " dbo.Clase_Nivel_Elemento ON dbo.Alumno_Nivel_Clase_Elemento.ClaseElemNivID = dbo.Clase_Nivel_Elemento.ClaseElemNivID AND  " +
+                     " dbo.Alumno_Nivel_Clase_Elemento.ClaseElemNivID = dbo.Clase_Nivel_Elemento.ClaseElemNivID INNER JOIN " +
+                     " dbo.Elemento ON dbo.Clase_Nivel_Elemento.ElementoID = dbo.Elemento.ElementoID " +
+                     " WHERE Alumno_Nivel_Clase.UsuarioID = " + ViewState["AlumnoID"] + " AND Alumno_Nivel_Clase.ClaseID = " + ViewState["ClaseID"] +
+                     " AND Alumno_Nivel_Clase.NivelID = " + ViewState["NivelID"]+" ORDER BY TXT";
+        Utilidades.CargarListado(ref ddlElementos, SQL, cn, ref Err, true);
         cargarHistorial();
         MostrarHistorialModal();
     }
@@ -574,7 +658,7 @@ public partial class sistema_InicioProfesor : System.Web.UI.Page
                           "         Calificacion ON Alumno_Nivel_Clase_Elemento.CalificacionID = Calificacion.CalificacionID INNER JOIN "+
                           "         Elemento ON Clase_Nivel_Elemento.ElementoID = Elemento.ElementoID "+
                           "  WHERE  Alumno_Nivel_Clase.UsuarioID = " + ViewState["AlumnoID"] + " AND Alumno_Nivel_Clase.ClaseID = " + ViewState["ClaseID"] + " " +
-                          "  AND Alumno_Nivel_Clase.NivelID = " + ViewState["NivelID"] + "" +
+                          "  AND Alumno_Nivel_Clase.NivelID = " + ViewState["NivelID"] + "" + ViewState["ElementoID"] + 
                           "  ORDER BY Alumno_Nivel_Clase_Elemento.AlumNivClasElemFechaReg DESC ";
 
             SqlDataAdapter dAdapter = new SqlDataAdapter(cmd2, cn);

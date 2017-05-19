@@ -451,16 +451,19 @@ public class Utilidades
             Int16 i = 0;
             if (lst.ID == "txtRol" || lst.ID == "dplRol") seleccione = "Seleccione el Rol";
             if (lst.ID == "ddlPlan" || lst.ID == "dplClientes" || lst.ID == "dplUnidad" || lst.ID == "dplEmpresa") seleccione = "Seleccione La Unidad";
-            if (lst.ID == "dplClaseAdd" || lst.ID == "dplClases" || lst.ID == "dplClaseProfesor") seleccione = "Seleccione La Clase";
-            if (lst.ID == "dplAlumnos") seleccione = "Seleccione El Alumno";
+            if (lst.ID == "dplClaseAdd" || lst.ID == "dplClases" || lst.ID == "dplClaseProfesor" || lst.ID == "ddlClases") seleccione = "Seleccione La Clase";
+            if (lst.ID == "ddlAlumnos") seleccione = "Seleccione El Alumno";
             if (lst.ID == "txtParroquiaAdd") seleccione = "Seleccione La Parroquia";
             if (lst.ID == "dplEmpresas") seleccione = "Seleccione la Empresa";
-            if (lst.ID == "dplNivel" || lst.ID == "dplNivelEdit" || lst.ID == "dplNivelAdd") seleccione = "Seleccione el Nivel";
+            if (lst.ID == "dplNivel" || lst.ID == "dplNivelEdit" || lst.ID == "dplNivelAdd" || lst.ID == "dplNivelMod") seleccione = "Seleccione el Nivel";
             if (lst.ID == "dplTipoCalificacion" || lst.ID == "dplTpoCal") seleccione = "Seleccione el Tipo";
             if (lst.ID == "dplTipoPar") seleccione = "Seleccione el Tipo";
             if (lst.ID == "dplPlan") seleccione = "Seleccione el Plan";
             if (lst.ID == "dplProfesor") seleccione = "Seleccione el Profesor";
             if (lst.ID == "ddlMeses") seleccione = "Seleccione el Mes";
+            if (lst.ID == "ddlFechas") seleccione = "Seleccione la Fecha";
+            if (lst.ID == "ddlCalificacion" || lst.ID == "dplCalificacionMod") seleccione = "Seleccione la Calificación";
+            if (lst.ID == "ddlElementos" || lst.ID == "ddElementosEvaluados" || lst.ID == "ddlElementosaEvaluar") seleccione = "Seleccione el Elemento";
             if (lst.ID != "txtSucursal")
                 if (bIndex0)
                 {

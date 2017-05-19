@@ -87,7 +87,7 @@ public partial class ingresar : System.Web.UI.Page
                             string Error = string.Empty;
                             string sSQL = "SELECT RolID FROM UsuarioRol WHERE UsuarioID = "+sUsuarioID;
                             string rol = Utilidades.EjeSQL(sSQL, cn, ref Error, true);
-                            if(rol == "3")
+                            if(rol == "2")
                                 Response.Redirect("~/sistema/InicioProfesor.aspx");
                             else
                                 Response.Redirect("~/sistema/inicio.aspx");

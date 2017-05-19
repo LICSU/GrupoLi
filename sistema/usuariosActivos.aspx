@@ -62,7 +62,10 @@
                                     <asp:Label ID="TotalClases" runat="server" Enabled="false" Text='<%# Eval("TotalClases") %>' />
                                 </ItemTemplate>
                             </asp:TemplateField>    
-                                                                                
+                            <asp:ButtonField CommandName="Historial"
+                                ButtonType="Image" ImageUrl="~/Images/historial.png" HeaderText="Historial">
+                                <ControlStyle></ControlStyle>
+                            </asp:ButtonField>                                                                               
                         </Columns>
                     </asp:GridView>
                 </div>

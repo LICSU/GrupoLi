@@ -301,17 +301,17 @@ public partial class sistema_AsignarPlan : System.Web.UI.Page
                                     totalR = int.Parse(totalClasesRegulares.Trim()) + int.Parse(CantidadClasesRegulares.Trim());
                                     disponR = int.Parse(disponiblesClasesRegulares.Trim()) + int.Parse(CantidadClasesRegulares.Trim());                                    
                                 }
-                                else if(ddlAcumuladoC.SelectedValue == "SI")
+                                if(ddlAcumuladoC.SelectedValue == "SI")
                                 {
                                     totalC = int.Parse(totalClasesComplemen.Trim()) + int.Parse(CantidadClasesComplemen.Trim());
                                     disponC = int.Parse(disponiblesClasesComplemen.Trim()) + int.Parse(CantidadClasesComplemen.Trim());
                                 }
-                                else if (dplAcumulado.SelectedValue == "NO")
+                                if (dplAcumulado.SelectedValue == "NO")
                                 {
                                     totalR = int.Parse(CantidadClasesRegulares.Trim());
                                     disponR = int.Parse(CantidadClasesRegulares.Trim());                                    
                                 }
-                                else if (dplAcumulado.SelectedValue == "NO")
+                                if (ddlAcumuladoC.SelectedValue == "NO")
                                 {
                                     totalC = int.Parse(CantidadClasesComplemen.Trim());
                                     disponC = int.Parse(CantidadClasesComplemen.Trim());

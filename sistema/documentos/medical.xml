@@ -2,30 +2,11 @@
 <Medical xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
   <Clase>
     <Nombre>Medidas y Riesgo Cardio A</Nombre>
-    <Fecha>14/03/2017</Fecha>
-    <Hora>11:00</Hora>
+    <Fecha>14/04/2016</Fecha>
+    <Hora>15:00</Hora>
     <Intervalo>5</Intervalo>
     <Sensor>1</Sensor>
     <SensorNombre />
   </Clase>
-  <Usuario>
-    <Usuario>
-      <Cedula>71796356</Cedula>
-      <Nombre>Juan Camilo Castrillon</Nombre>
-      <Turno>2</Turno>
-      <HoraInicial>11:07:00</HoraInicial>
-      <HoraFinal>11:12:00</HoraFinal>
-      <Sexo>M</Sexo>
-      <FechaNacimiento>01/01/1900</FechaNacimiento>
-    </Usuario>
-    <Usuario>
-      <Cedula>043103152</Cedula>
-      <Nombre>licsu valencia</Nombre>
-      <Turno>1</Turno>
-      <HoraInicial>11:00:00</HoraInicial>
-      <HoraFinal>11:05:00</HoraFinal>
-      <Sexo>F</Sexo>
-      <FechaNacimiento>04/06/1978</FechaNacimiento>
-    </Usuario>
-  </Usuario>
+  <Usuario />
 </Medical>

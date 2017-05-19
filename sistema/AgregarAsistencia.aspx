@@ -106,4 +106,10 @@
             return true;
         }
     </script>
+    <script type="text/javascript">
+        function MostrarVolver(message, title, ccsclas) {;
+            $('#modalVolver').modal('show');
+            return true;
+        }
+    </script>
 </form>
